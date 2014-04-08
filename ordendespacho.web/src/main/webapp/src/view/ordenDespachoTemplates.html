@@ -1,0 +1,70 @@
+<script type="text/template" id="ordenDespachoList">
+    <div class="panel panel-default">
+    <!-- Default panel contents -->
+    <table class="table striped">
+    <thead>
+    <tr>
+		 <th>name</th>
+		 <th>destino</th>
+		 <th>cantidad</th>
+		 <th>fecha</th>
+		 <th>idProducto</th>
+    <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% _.each(ordenDespachos, function(ordenDespacho) { %>
+    <tr>
+		<td><%= htmlEncode(ordenDespacho.getDisplay('name')) %></td>
+		<td><%= htmlEncode(ordenDespacho.getDisplay('destino')) %></td>
+		<td><%= htmlEncode(ordenDespacho.getDisplay('cantidad')) %></td>
+		<td><%= htmlEncode(ordenDespacho.getDisplay('fecha')) %></td>
+		<td><%= htmlEncode(ordenDespacho.getDisplay('idProducto')) %></td>
+    <td>
+    <% if(showEdit) {%>
+    <a onclick="Backbone.trigger('<%= componentId %>-ordenDespacho-edit',{id:<%= ordenDespacho.id %>}); return false" >Edit</a> |
+	<% } %> 
+	<% if(showDelete) {%>
+    <a onclick="Backbone.trigger('<%= componentId %>-ordenDespacho-delete',{id:<%= ordenDespacho.id %>}); return false" >Delete</a> 
+	<% } %>    
+	</td>
+    </tr>
+    <% }); %>
+    </tbody>
+    </table>
+    </div>
+</script>
+
+<script type="text/template" id="ordenDespacho">
+    <div class="form-group">
+    <form role="form" id="<%= componentId %>-ordenDespachoForm">
+    <% if(ordenDespacho.id) {%>
+    <input type="hidden" name="id" value="<%= ordenDespacho.id %>"/>
+    <% }%>
+		<div class="form-group" >
+		<label for="name">name</label>
+    	<input type="text" class="form-control" id="name" name="name" placeholder="Enter value" value="<%= ordenDespacho.get('name') %>"/>	
+		</div>
+		<div class="form-group" >
+		<label for="destino">destino</label>
+    	<input type="text" class="form-control" id="destino" name="destino" placeholder="Enter value" value="<%= ordenDespacho.get('destino') %>"/>	
+		</div>
+		<div class="form-group" >
+		<label for="cantidad">cantidad</label>
+    	<input type="text" class="form-control" id="cantidad" name="cantidad" placeholder="Enter value" value="<%= ordenDespacho.get('cantidad') %>"/>	
+		</div>
+		<div class="form-group" >
+			<label for="fecha">fecha</label>
+    		<input type="text" data-converter="date" data-date-format="dd/mm/yyyy" class="form-control" id="fecha"  name="fecha" placeholder="Enter value" />
+    		<%= '<scr'+'ipt>' %>
+        	$('#fecha').datepicker({autoclose:true});
+        	$('#fecha').datepicker('setDate',new Date(<%= ordenDespacho.get('fecha') %>));
+    		<%= '</scr'+'ipt>' %>
+		</div>
+		<div class="form-group" >
+		<label for="idProducto">idProducto</label>
+    	<input type="text" class="form-control" id="idProducto" name="idProducto" placeholder="Enter value" value="<%= ordenDespacho.get('idProducto') %>"/>	
+		</div>
+    </form>
+    </div>
+</script> 

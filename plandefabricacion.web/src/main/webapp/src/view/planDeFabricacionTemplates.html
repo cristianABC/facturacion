@@ -1,0 +1,64 @@
+<script type="text/template" id="planDeFabricacionList">
+    <div class="panel panel-default">
+    <!-- Default panel contents -->
+    <table class="table striped">
+    <thead>
+    <tr>
+		 <th>name</th>
+		 <th>fecha</th>
+		 <th>nombreProducto</th>
+		 <th>cantidad</th>
+    <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% _.each(planDeFabricacions, function(planDeFabricacion) { %>
+    <tr>
+		<td><%= htmlEncode(planDeFabricacion.getDisplay('name')) %></td>
+		<td><%= htmlEncode(planDeFabricacion.getDisplay('fecha')) %></td>
+		<td><%= htmlEncode(planDeFabricacion.getDisplay('nombreProducto')) %></td>
+		<td><%= htmlEncode(planDeFabricacion.getDisplay('cantidad')) %></td>
+    <td>
+    <% if(showEdit) {%>
+    <a onclick="Backbone.trigger('<%= componentId %>-planDeFabricacion-edit',{id:<%= planDeFabricacion.id %>}); return false" >Edit</a> |
+	<% } %> 
+	<% if(showDelete) {%>
+    <a onclick="Backbone.trigger('<%= componentId %>-planDeFabricacion-delete',{id:<%= planDeFabricacion.id %>}); return false" >Delete</a> 
+	<% } %>    
+	</td>
+    </tr>
+    <% }); %>
+    </tbody>
+    </table>
+    </div>
+</script>
+
+<script type="text/template" id="planDeFabricacion">
+    <div class="form-group">
+    <form role="form" id="<%= componentId %>-planDeFabricacionForm">
+    <% if(planDeFabricacion.id) {%>
+    <input type="hidden" name="id" value="<%= planDeFabricacion.id %>"/>
+    <% }%>
+		<div class="form-group" >
+		<label for="name">name</label>
+    	<input type="text" class="form-control" id="name" name="name" placeholder="Enter value" value="<%= planDeFabricacion.get('name') %>"/>	
+		</div>
+		<div class="form-group" >
+			<label for="fecha">fecha</label>
+    		<input type="text" data-converter="date" data-date-format="dd/mm/yyyy" class="form-control" id="fecha"  name="fecha" placeholder="Enter value" />
+    		<%= '<scr'+'ipt>' %>
+        	$('#fecha').datepicker({autoclose:true});
+        	$('#fecha').datepicker('setDate',new Date(<%= planDeFabricacion.get('fecha') %>));
+    		<%= '</scr'+'ipt>' %>
+		</div>
+		<div class="form-group" >
+		<label for="nombreProducto">nombreProducto</label>
+    	<input type="text" class="form-control" id="nombreProducto" name="nombreProducto" placeholder="Enter value" value="<%= planDeFabricacion.get('nombreProducto') %>"/>	
+		</div>
+		<div class="form-group" >
+		<label for="cantidad">cantidad</label>
+    	<input type="text" class="form-control" id="cantidad" name="cantidad" placeholder="Enter value" value="<%= planDeFabricacion.get('cantidad') %>"/>	
+		</div>
+    </form>
+    </div>
+</script> 

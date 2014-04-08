@@ -1,0 +1,9 @@
+{
+    "displayName" : "PlanDeFabricacion",
+    "name" : "planDeFabricacion",
+    "templateName" : "planDeFabricacion",
+    "url" : "user.html",
+    "server": "localhost:8080",
+    "context": "/plandefabricacion.service.subsystem.web/webresources/PlanDeFabricacion",
+    "el" : "#main"
+}

@@ -12,5 +12,5 @@ public interface _IFacturaPersistence {
 	public FacturaDTO getFactura(Long id);
 	public void deleteFactura(Long id);
 	public void updateFactura(FacturaDTO detail);
-	
+	public List<FacturaDTO> searchFactura(String desc);
 }

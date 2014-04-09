@@ -47,4 +47,9 @@ public abstract class _FacturaService {
 		facturaLogicService.updateFactura(factura);
 	}
 	
+        @POST
+	@Path("/search")
+	public List<FacturaDTO> searchSport( String desc){
+		return this.facturaLogicService.searchFactura(desc);
+	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import co.edu.uniandes.csw.factura.logic.dto.FacturaDTO;
 import co.edu.uniandes.csw.factura.logic.api._IFacturaLogicService;
+import co.edu.uniandes.csw.factura.persistence.FacturaPersistence;
 
 public abstract class _FacturaMockLogicService implements _IFacturaLogicService {
 
@@ -53,5 +54,10 @@ public abstract class _FacturaMockLogicService implements _IFacturaLogicService 
 			data.remove(delete);
 			data.add(factura);
 		} 
-	}	
+	}
+        
+        public List<FacturaDTO> searchFactura(String desc){
+           FacturaPersistence q  = new FacturaPersistence();
+	   return q.searchFactura(desc); 
+	}
 }

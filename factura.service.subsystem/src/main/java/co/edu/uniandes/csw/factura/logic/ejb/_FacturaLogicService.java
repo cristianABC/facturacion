@@ -30,5 +30,9 @@ public abstract class _FacturaLogicService implements _IFacturaLogicService {
 
 	public void updateFactura(FacturaDTO factura){
 	    persistance.updateFactura(factura); 
-	}	
+	}
+        
+        public List<FacturaDTO> searchFactura(String desc){
+            return persistance.searchFactura(desc); 
+	}
 }

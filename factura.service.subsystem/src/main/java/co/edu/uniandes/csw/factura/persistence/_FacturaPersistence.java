@@ -42,5 +42,15 @@ public abstract class _FacturaPersistence implements _IFacturaPersistence {
 		FacturaEntity entity=entityManager.merge(FacturaConverter.persistenceDTO2Entity(detail));
 		FacturaConverter.entity2PersistenceDTO(entity);
 	}
+        
+    public List<FacturaDTO> searchFactura(String descr) {
+        Query q = entityManager.createQuery("select u from FacturaEntity u where u.description like '%" + descr + "%'");
+ 
+        List list = q.getResultList();
+        if (list.size() != 0) {
+            return FacturaConverter.entity2PersistenceDTOList(list);
+        }
+        return null;
+    }
 
 }

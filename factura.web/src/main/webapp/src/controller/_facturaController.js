@@ -7,6 +7,7 @@ define(['model/facturaModel'], function(facturaModel) {
             this.showDelete = true;
             this.editTemplate = _.template($('#factura').html());
             this.listTemplate = _.template($('#facturaList').html());
+            this.searchTemplate = _.template($('#facturaSearch').html() + $('#facturaList').html());
             if (!options || !options.componentId) {
                 this.componentId = _.random(0, 100) + "";
             }else{
@@ -28,6 +29,13 @@ define(['model/facturaModel'], function(facturaModel) {
             Backbone.on(this.componentId + '-' + 'post-factura-delete', function(params) {
                 self.list(params);
             });
+            Backbone.on(this.componentId + '-' + 'toolbar-search', function(params) {
+                self.search(params);
+            });
+            Backbone.on(this.componentId + '-factura-search', function(params) {
+                self.facturaSearch(params);
+            });
+            
             Backbone.on(this.componentId + '-' + 'factura-save', function(params) {
                 self.save(params);
             });
@@ -142,6 +150,53 @@ define(['model/facturaModel'], function(facturaModel) {
             var self = this;
             this.$el.slideUp("fast", function() {
                 self.$el.html(self.listTemplate({facturas: self.facturaModelList.models, componentId: self.componentId, showEdit : self.showEdit , showDelete : self.showDelete}));
+                self.$el.slideDown("fast");
+            });
+        },
+         search: function() {
+            this.currentFacturaModel = new App.Model.FacturaModel();
+            this.facturaModelList = new this.listModelClass();
+            this._renderSearch();
+        },
+        facturaSearch: function(params) {
+            var self = this;
+            var model = $('#' + this.componentId + '-facturaSearch').serializeObject();
+            this.currentFacturaModel.set(model);
+            this.searchi(self.currentFacturaModel, function(data) {
+                self.facturaModelList = new App.Model.FacturaList();
+                _.each(data, function(d) {
+                    var model = new App.Model.FacturaModel(d);
+                    self.facturaModelList.models.push(model);
+                });
+                self._renderSearch(params);
+            }, function(data) {
+                Backbone.trigger(self.componentId + '-' + 'error', {event: 'factura-search', view: self, id: '', data: data, error: {textResponse: 'Error in factura search'}});
+            });
+        },
+              searchi: function(user, callback, callbackError) {
+            console.log('Factura Search: ');
+            $.ajax({
+                url: '/factura.service.subsystem.web/webresources/Factura/search',
+                type: 'POST',
+                data: JSON.stringify(user),
+                contentType: 'application/json'
+            }).done(_.bind(function(data) {
+                callback(data);
+            }, this)).error(_.bind(function(data) {
+                callbackError(data);
+            }, this));
+        },
+ 
+        _renderSearch: function(params) {
+ 
+            var self = this;
+            this.$el.slideUp("fast", function() {
+                self.$el.html(self.searchTemplate({componentId: self.componentId,
+                    facturas: self.facturaModelList.models,
+                    factura: self.currentFacturaModel,
+                    showEdit: false,
+                    showDelete: false
+                }));
                 self.$el.slideDown("fast");
             });
         },

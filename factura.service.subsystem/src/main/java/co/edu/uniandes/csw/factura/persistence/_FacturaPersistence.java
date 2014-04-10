@@ -43,14 +43,17 @@ public abstract class _FacturaPersistence implements _IFacturaPersistence {
 		FacturaConverter.entity2PersistenceDTO(entity);
 	}
         
-    public List<FacturaDTO> searchFactura(String descr) {
-        Query q = entityManager.createQuery("select u from FacturaEntity u where u.description like '%" + descr + "%'");
- 
-        List list = q.getResultList();
-        if (list.size() != 0) {
-            return FacturaConverter.entity2PersistenceDTOList(list);
-        }
-        return null;
-    }
+    public List<FacturaDTO> searchFactura(String descr) {    
+            descr = descr.split("\"description\":\"")[1];
+            descr = descr.split("\"")[0];
+            System.out.println("Param: " + descr);
+            Query q = entityManager.createQuery("select u from FacturaEntity u where u.name like '%" + descr + "%'");
+            
+            List list = q.getResultList();
+            if (list.size() != 0) {
+                return FacturaConverter.entity2PersistenceDTOList(list);
+            }
+            return null;
+         }
 
 }

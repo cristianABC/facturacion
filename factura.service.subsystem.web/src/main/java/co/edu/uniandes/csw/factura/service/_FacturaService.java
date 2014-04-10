@@ -48,8 +48,8 @@ public abstract class _FacturaService {
 	}
 	
         @POST
-	@Path("/search")
-	public List<FacturaDTO> searchSport( String desc){
-		return this.facturaLogicService.searchFactura(desc);
-	}
+        @Path("/search")
+        public List<FacturaDTO> searchFactura(String desc){
+        return this.facturaLogicService.searchFactura(desc);
+        }
 }

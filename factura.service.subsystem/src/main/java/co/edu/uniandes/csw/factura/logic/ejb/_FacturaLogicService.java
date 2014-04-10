@@ -33,6 +33,6 @@ public abstract class _FacturaLogicService implements _IFacturaLogicService {
 	}
         
         public List<FacturaDTO> searchFactura(String desc){
-            return persistance.searchFactura(desc); 
+		return persistance.searchFactura(desc); 
 	}
 }

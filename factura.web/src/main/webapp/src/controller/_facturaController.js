@@ -1,4 +1,4 @@
-define(['model/facturaModel'], function(facturaModel) {
+define(['model/facturaModel','delegate/_facturaDelegate'], function(facturaModel) {
     App.Controller._FacturaController = Backbone.View.extend({
         initialize: function(options) {
             this.modelClass = options.modelClass;
@@ -153,29 +153,25 @@ define(['model/facturaModel'], function(facturaModel) {
                 self.$el.slideDown("fast");
             });
         },
-         search: function() {
+        _renderEdit: function() {
+            var self = this;
+            this.$el.slideUp("fast", function() {
+                self.$el.html(self.editTemplate({factura: self.currentFacturaModel, componentId: self.componentId , showEdit : self.showEdit , showDelete : self.showDelete
+ 
+				}));
+                self.$el.slideDown("fast");
+            });
+        },
+        search: function() {
             this.currentFacturaModel = new App.Model.FacturaModel();
             this.facturaModelList = new this.listModelClass();
             this._renderSearch();
-        },
-         searchi: function(user, callback, callbackError) {
-            console.log('Factura Search: ');
-            $.ajax({
-                url: '/factura.service.subsystem.web/webresources/Factura/search',
-                type: 'POST',
-                data: JSON.stringify(user),
-                contentType: 'application/json'
-            }).done(_.bind(function(data) {
-                callback(data);
-            }, this)).error(_.bind(function(data) {
-                callbackError(data);
-            }, this));
         },
         facturaSearch: function(params) {
             var self = this;
             var model = $('#' + this.componentId + '-facturaSearch').serializeObject();
             this.currentFacturaModel.set(model);
-            this.searchi(self.currentFacturaModel, function(data) {
+            App.Delegate.FacturaDelegate.search(self.currentFacturaModel, function(data) {
                 self.facturaModelList = new App.Model.FacturaList();
                 _.each(data, function(d) {
                     var model = new App.Model.FacturaModel(d);
@@ -200,15 +196,6 @@ define(['model/facturaModel'], function(facturaModel) {
                 self.$el.slideDown("fast");
             });
         },
-        _renderEdit: function() {
-            var self = this;
-            this.$el.slideUp("fast", function() {
-                self.$el.html(self.editTemplate({factura: self.currentFacturaModel, componentId: self.componentId , showEdit : self.showEdit , showDelete : self.showDelete
- 
-				}));
-                self.$el.slideDown("fast");
-            });
-        }
     });
     return App.Controller._FacturaController;
 });

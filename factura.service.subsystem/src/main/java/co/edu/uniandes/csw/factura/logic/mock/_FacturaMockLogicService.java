@@ -56,8 +56,8 @@ public abstract class _FacturaMockLogicService implements _IFacturaLogicService 
 		} 
 	}
         
-        public List<FacturaDTO> searchFactura(String desc){
-           FacturaPersistence q  = new FacturaPersistence();
-	   return q.searchFactura(desc); 
-	}
+        public List<FacturaDTO> searchFactura(String desc) {
+            FacturaPersistence q = new FacturaPersistence();
+            return q.searchFactura(desc);
+        }
 }
